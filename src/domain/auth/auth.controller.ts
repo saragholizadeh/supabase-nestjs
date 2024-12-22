@@ -1,8 +1,9 @@
 import { Controller, Post, Body, Param, Get, Query, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { OtpDto, RefreshTokenDto, SignInDto } from './dto';
-import { Request } from 'express';
-import { JwtAuthGuard } from './guards';
+import { JwtAuthGuard } from 'src/common';
+import { GetUser } from 'src/common/decorators';
+import { User } from '@supabase/supabase-js';
 
 @Controller('auth')
 export class AuthController {
@@ -26,7 +27,10 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Post('refreshToken')
-  async refreshToken(@Body() refreshTokenDto: RefreshTokenDto) {
+  async refreshToken(
+    @Body() refreshTokenDto: RefreshTokenDto,
+  @GetUser() user: User) {
+    console.log(user);
     return {data: await this.authService.refreshAccessToken(refreshTokenDto)}
   }
 }
