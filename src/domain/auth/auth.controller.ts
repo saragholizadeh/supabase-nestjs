@@ -1,6 +1,7 @@
-import { Controller, Post, Body, Param, Get } from '@nestjs/common';
+import { Controller, Post, Body, Param, Get, Query, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { SignInDto } from './dto';
+import { OtpDto, RefreshTokenDto, SignInDto } from './dto';
+import { Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -8,18 +9,23 @@ export class AuthController {
 
   @Post('signin')
   async signIn(@Body() body: SignInDto) {
-    return this.authService.signIn(body);
+    return {
+      data: await this.authService.signIn(body)
+    }
   }
 
-  @Post('signup')
-  async signUp(@Body() body: SignInDto) {
-    return this.authService.signUp(body);
-  }
-
-  @Get('confirm')
-  async confirmEmail(
-    @Param() accessToken : any
+  @Post('verify')
+  async verifyOtp(
+    @Body() otpDto: OtpDto
   ){
-    console.log(accessToken);
+    return {
+      data: await this.authService.verifyOtp(otpDto)
+    }
+  }
+
+  @Post('refreshToken')
+  async refreshToken(@Body() refreshTokenDto: RefreshTokenDto) {
+    const tokens = await this.authService.refreshAccessToken(refreshTokenDto);
+    return tokens;
   }
 }
