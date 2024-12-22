@@ -2,6 +2,6 @@ import { IsEmail, IsNotEmpty, IsString, Length, MaxLength, MinLength } from "cla
 
 export class SignInDto {
     @IsEmail()
-    @IsNotEmpty({message: "Email feild can't be empty"})
+    @IsNotEmpty()
     email: string
 }
