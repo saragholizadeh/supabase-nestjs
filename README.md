@@ -97,7 +97,7 @@ This document describes the available API endpoints for authentication in this p
      ```
    - **Response**:
      ```json
-    {
+     {
         "success": true,
         "message": "Operation Successfully Completed.",
         "data": {
@@ -114,7 +114,7 @@ This document describes the available API endpoints for authentication in this p
                 "expiresAt": 1734893466
             }
         }
-    }
+     }
      ```
 
 ### 3. **Refresh Token**
@@ -129,7 +129,7 @@ This document describes the available API endpoints for authentication in this p
      ```
    - **Response**:
      ```json
-    {
+     {
         "success": true,
         "message": "Operation Successfully Completed.",
         "data": {
@@ -146,7 +146,7 @@ This document describes the available API endpoints for authentication in this p
                 "expiresAt": 1734893466
             }
         }
-    }
+     } 
      ```
 
 ### **Supabase Service**
