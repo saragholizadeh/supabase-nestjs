@@ -1,6 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { OtpDto, RefreshTokenDto, SignInDto } from './dto';
 import { SupabaseService } from 'src/common';
+import { VerificationTransform } from './transform';
 
 @Injectable()
 export class AuthService {
@@ -32,22 +33,9 @@ export class AuthService {
     const user = data.user;
 
     return {
-      success: true,
       message: 'OTP verified successfully.',
-      data: {
-        user: {
-          id: user.id,
-          email: user.email,
-          emailConfirmed: user.email_confirmed_at,
-          role: user.role,
-        },
-        session: {
-          accessToken: session.access_token,
-          refreshToken: session.refresh_token,
-          expiresAt: session.expires_at,
-        },
-      },
-    };
+      ...new VerificationTransform().transform({user, session}),
+    }
   }
 
   async refreshAccessToken(refreshTokenDto: RefreshTokenDto) {
