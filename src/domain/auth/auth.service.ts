@@ -39,15 +39,14 @@ export class AuthService {
   }
 
   async refreshAccessToken(refreshTokenDto: RefreshTokenDto) {
-    return true;
-    // const { data, error } = await this.supabaseService.getClient().auth.refreshSession({
-    //   refresh_token: refreshTokenDto.refreshToken
-    // });
+    const { data, error } = await this.supabaseService.getClient().auth.refreshSession({
+      refresh_token: refreshTokenDto.refreshToken
+    });
 
-    // if (error) {
-    //   throw new UnauthorizedException('Invalid refresh token');
-    // }
+    if (error) {
+      throw new UnauthorizedException('Invalid refresh token');
+    }
 
-    // return data;
+    return new VerificationTransform().transform({user: data.user, session: data.session});
   }
 }
